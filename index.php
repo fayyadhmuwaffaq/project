@@ -2,48 +2,49 @@
 require 'function.php';
 
 if (isset($_POST['cari'])){
-    $perpustakaan = cari($_POST["keyword"]);
+    $resep = cari($_POST["keyword"]);
 } else {
-    $perpustakaan = query("SELECT * FROM perpustakaan");
+    $resep = query("SELECT * FROM resep");
 }
 
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Halaman Admin</title>
+    <title>MyCook</title>
+    <link rel="stylesheet" href="stylee.css">
 </head>
 <body>
-    <h1>Daftar Buku</h1>
-    <a href="tambah.php">Tambah Buku</a><br><br>
-    <form action="" method="post">
-        <input type="text" name="keyword" autofocus placeholder="Tulis pencarianmu disini.." autocomplete="off" size="20">
-        <button type="submit" name="cari">Cari</button><br><br>
-    </form>
+<nav class="navbar">
+        <a href="#" class="logo">MyCook</a>
+        <form action="" method="post" class="search-form">
+            <input type="text" name="keyword" placeholder="Cari resepmu disini.." autocomplete="off">
+            <button type="submit" name="cari">Cari</button>
+        </form>
+        <a href="tambah.php" class="add-recipe">Tambah Resep</a>
+    </nav>
 <table border="1" cellpadding="10" cellspacing = "0">
 <tr>
     <th>No.</th>
+    <th>Gambar</th>
+    <th>Nama Resep</th>
+    <th>Alat & Bahan</th>
+    <th>Cara Membuat</th>
     <th>Aksi</th>
-    <th>Buku</th>
-    <th>Kategori</th>
-    <th>Penulis</th>
-    <th>Penerbit</th>
-    <th>Keterangan</th>
 </tr>
     <?php $i = 1; ?>
     <?php 
-        foreach ($perpustakaan as $row) :?>
+        foreach ($resep as $row) :?>
     <tr>
         <td><?= $i; ?></td>
+        <td><img src="img/<?= $row["gambar"]; ?>" width="50"></td>
+        <td><?= $row["nama_resep"]; ?></td>
+        <td><?= $row["alat_bahan"]; ?></td>
+        <td><?= $row["cara_kerja"]; ?></td>
         <td>
             <a href="update.php?id=<?= $row["id"]; ?>">update </a>
             <a href="hapus.php?id=<?= $row["id"]; ?>" onclick=" return confirm('Apakah anda yakin ingin menghapus data ini?')">delete</a>
         </td>
-        <td><?= $row["buku"]; ?></td>
-        <td><?= $row["kategori"]; ?></td>
-        <td><?= $row["penulis"]; ?></td>
-        <td><?= $row["penerbit"]; ?></td>
-        <td><?= $row["keterangan"]; ?></td>
     </tr>
     <?php $i++?>
     <?php endforeach;?>

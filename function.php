@@ -1,6 +1,6 @@
     <?php
     //koneksi database
-    $conn = mysqli_connect("localhost", "root", "", "belajardata");
+    $conn = mysqli_connect("localhost", "root", "", "project");
     function query($query) {
         global $conn;
         $result = mysqli_query($conn, $query) ;
@@ -17,41 +17,41 @@
         function tambah ($data) {
             global $conn ;
         // ambil data dari tiap elemen dalam form
-            $buku           = htmlspecialchars($data["buku"]);
-            $kategori       = htmlspecialchars($data["kategori"]);
-            $penulis        = htmlspecialchars($data["penulis"]);
-            $penerbit       = htmlspecialchars($data["penerbit"]);
-            $keterangan     = htmlspecialchars($data["keterangan"]);
+            $gambar           = upload();
+                if (!$gambar){
+                return false;
+            }
+            $nama_resep       = htmlspecialchars($data["nama_resep"]);
+            $alat_bahan       = htmlspecialchars($data["alat_bahan"]);
+            $cara_kerja       = htmlspecialchars($data["cara_kerja"]);
         // query insert data
-        $query = "INSERT INTO perpustakaan
+        $query = "INSERT INTO resep
                     VALUES
-                    ('','$buku', '$kategori', '$penulis', '$penerbit', '$keterangan')";
+                    ('','$gambar', '$nama_resep', '$alat_bahan', '$cara_kerja')";
         mysqli_query($conn, $query);
         return mysqli_affected_rows($conn);
     }
 
         function hapus($id){
             global $conn;
-            mysqli_query($conn, "DELETE FROM perpustakaan WHERE id = $id");
+            mysqli_query($conn, "DELETE FROM resep WHERE id = $id");
             
             return mysqli_affected_rows($conn);
     }
         function update ($data) {
             global $conn ;
 
-            $id             = $data["id"];
-            $buku           = htmlspecialchars($data["buku"]);
-            $kategori       = htmlspecialchars($data["kategori"]);
-            $penulis        = htmlspecialchars($data["penulis"]);
-            $penerbit       = htmlspecialchars($data["penerbit"]);
-            $keterangan     = htmlspecialchars($data["keterangan"]);
+            $id               = $data["id"];
+            $gambar           = 
+            $nama_resep       = htmlspecialchars($data["nama_resep"]);
+            $alat_bahan       = htmlspecialchars($data["alat_bahan"]);
+            $cara_kerja       = htmlspecialchars($data["cara_kerja"]);
     // query insert data
-        $query = "UPDATE perpustakaan SET
-                    buku        = '$buku',
-                    kategori    = '$kategori',
-                    penulis     = '$penulis',
-                    penerbit    = '$penerbit',
-                    keterangan  = '$keterangan'
+        $query = "UPDATE resep SET
+                    gambar      = '$gambar',
+                    nama_resep  = '$nama_resep',
+                    alat_bahan  = '$alat_bahan',
+                    cara_kerja  = '$cara_kerja'
                 WHERE id        = $id
                 ";
         mysqli_query($conn, $query);
@@ -59,8 +59,46 @@
     }
 
     function cari($keyword){
-        $query = "SELECT * FROM perpustakaan WHERE buku LIKE '$keyword' OR penulis LIKE '$keyword'
+        $query = "SELECT * FROM resep WHERE nama_resep LIKE '$keyword'
                     ";
         return query($query);
+    }
+
+    function upload(){
+        $namafile   = $_FILES['gambar']['name'];
+        $ukuranfile = $_FILES['gambar']['size'];
+        $error      = $_FILES['gambar']['error'];
+        $tmpname    = $_FILES['gambar']['tmpname'];
+        
+        if ($error === 4){
+            echo "<script>
+            alert('pilih gambar terlebih dahulu');
+            </script>";
+            return false;
+        }
+        $EkstensiGambarValid = ['jpg', 'jpeg', 'png'];
+        $EkstensiGambar      = explode('.', $namafile);
+        $EkstensiGambar      = strtolower (end($EkstensiGambar));
+
+        if(in_array($EkstensiGambar, $EkstensiGambarValid)){
+            echo "<script>
+            alert('yang anda upload bukan gambar');
+            </script>";
+            return false;
+        }
+
+        if($ukuranfile > 100000){
+            echo "<script>
+            alert('Gambar yang anda masukkan terlalu besar!');
+            </script>";
+            return false;
+        }
+
+        $NamaFileBaru    = uniqid();
+        $NamaFileBaru   .= '.';
+        $NamaFileBaru   .= $EkstensiGambar;
+
+        move_uploaded_file($tmpname, 'img/' . $NamaFileBaru);
+        return $NamaFileBaru;
     }
     ?>

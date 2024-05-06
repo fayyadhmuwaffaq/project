@@ -3,18 +3,18 @@ require 'function.php' ;
 
 $id = $_GET["id"];
 
-$ubahDB = query("SELECT * FROM perpustakaan WHERE id = $id")[0]; 
+$ubahDB = query("SELECT * FROM resep WHERE id = $id")[0]; 
 
 if ( isset($_POST["submit"])){
 
     if (update($_POST) > 0 ){
         echo "<script>
-                alert('Data Berhasil diupdate');
+                alert('Resep Berhasil diubah');
                 document.location.href = 'index.php';
               </script>";
     }else {
         echo "<script>
-                alert('Data Tidak Berhasil diupdate');
+                alert('Resep gagal diubah');
                 document.location.href = 'index.php';
               </script>";
     }
@@ -27,36 +27,29 @@ if ( isset($_POST["submit"])){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Update Data Buku</h1>
+    <h1>Ubah Resep</h1>
 <form action="" method="post">
     <input type="hidden" name="id" value="<?= $ubahDB["id"]; ?>">
-    <ul>
-        <li>
-            <label for="buku">Buku</label>
-            <input type="text" name="buku" id="buku" required value="<?= $ubahDB["buku"];?>">
-        </li>
-        <li>
-            <label for="kategori">Kategori</label>
-            <input type="text" name="kategori" id="kategori" required value="<?= $ubahDB["kategori"];?>">
-        </li>
-        <li>
-            <label for="penulis">Penulis</label>
-            <input type="text" name="penulis" id="penulis" required value="<?= $ubahDB["penulis"];?>">
-        </li>
-        <li>
-            <label for="penerbit">Penerbit</label>
-            <input type="text" name="penerbit" id="penerbit" required value="<?= $ubahDB["penerbit"];?>">
-        </li>
-        <li>
-            <label for="keterangan">Keterangan</label>
-            <input type="text" name="keterangan" id="keterangan" required value="<?= $ubahDB["keterangan"];?>">
-        </li>
-        <li>
-            <button type="submit" name="submit">Update Data</button>
-        </li>
-    </ul>
+    <fieldset>
+            <legend>Gambar</legend>
+            <input type="file" name="gambar" id="gambar" required value="<?= $ubahDB["gambar"];?>">
+        </fieldset>
+        <fieldset>
+            <legend>Nama Resep</legend>
+            <input type="text" name="nama_resep" id="nama_resep" placeholder="Masukkan nama resep" required value="<?= $ubahDB["nama_resep"];?>">
+        </fieldset>
+        <fieldset>
+            <legend>Alat & Bahan</legend>
+            <input type="text" name="alat_bahan" id="alat_bahan" placeholder="Masukkan alat & bahan yang diperlukan" required value="<?= $ubahDB["alat_bahan"];?>">
+        </fieldset>
+        <fieldset>
+            <legend>Cara Membuat</legend>
+            <input type="text" name="cara_kerja" id="cara_kerja" placeholder="Masukkan cara membuat resep" required value="<?= $ubahDB["cara_kerja"];?>">
+        </fieldset>
+        <button type="submit" name="submit">Ubah Resep</button>
 </form>
 </body>
 </html>
