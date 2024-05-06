@@ -29,19 +29,19 @@ if ( isset($_POST["submit"])){
     <form action="" method="post" enctype="multipart/form-data">
         <fieldset>
             <legend>Gambar</legend>
-            <input type="file" name="gambar" id="gambar" required>
+            <input type="file" name="gambar" id="gambar" require>
         </fieldset>
         <fieldset>
             <legend>Nama Resep</legend>
-            <input type="text" name="nama_resep" id="nama_resep" placeholder="Masukkan nama resep" required>
+            <input type="text" name="nama_resep" id="nama_resep" placeholder="Masukkan nama resep" require>
         </fieldset>
         <fieldset>
             <legend>Alat & Bahan</legend>
-            <input type="text" name="alat_bahan" id="alat_bahan" placeholder="Masukkan alat & bahan yang diperlukan" required>
+            <input type="text" name="alat_bahan" id="alat_bahan" placeholder="Masukkan alat & bahan yang diperlukan" require>
         </fieldset>
         <fieldset>
             <legend>Cara Membuat</legend>
-            <input type="text" name="cara_kerja" id="cara_kerja" placeholder="Masukkan cara membuat resep" required>
+            <input type="text" name="cara_kerja" id="cara_kerja" placeholder="Masukkan cara membuat resep" require>
         </fieldset>
         <button type="submit" name="submit">Tambah Resep</button>
     </form>

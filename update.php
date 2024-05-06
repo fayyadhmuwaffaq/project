@@ -35,6 +35,7 @@ if ( isset($_POST["submit"])){
     <input type="hidden" name="id" value="<?= $ubahDB["id"]; ?>">
     <fieldset>
             <legend>Gambar</legend>
+            <img src="img/<?= $ubahDB['gambar']; ?>" width="50"><br>
             <input type="file" name="gambar" id="gambar" required value="<?= $ubahDB["gambar"];?>">
         </fieldset>
         <fieldset>

@@ -1,10 +1,10 @@
 <?php
 require 'function.php';
 
+$resep = query("SELECT * FROM resep");
+
 if (isset($_POST['cari'])){
     $resep = cari($_POST["keyword"]);
-} else {
-    $resep = query("SELECT * FROM resep");
 }
 
 ?>
@@ -22,6 +22,7 @@ if (isset($_POST['cari'])){
             <button type="submit" name="cari">Cari</button>
         </form>
         <a href="tambah.php" class="add-recipe">Tambah Resep</a>
+        <a href="" class="log-out">LOG OUT</a>
     </nav>
 <table border="1" cellpadding="10" cellspacing = "0">
 <tr>
@@ -51,3 +52,4 @@ if (isset($_POST['cari'])){
 </table>
 </body>
 </html>
+#DF2E38

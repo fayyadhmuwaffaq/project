@@ -42,7 +42,12 @@
             global $conn ;
 
             $id               = $data["id"];
-            $gambar           = 
+            $gambarLama = htmlspecialchars($data["gambarLama"]);
+                if( $_FILES ['gambar']['error'] === 4 ) {
+                        $gambar = $gambarLama;
+                }else {
+                        $gambar = upload();
+                }
             $nama_resep       = htmlspecialchars($data["nama_resep"]);
             $alat_bahan       = htmlspecialchars($data["alat_bahan"]);
             $cara_kerja       = htmlspecialchars($data["cara_kerja"]);
@@ -68,36 +73,37 @@
         $namafile   = $_FILES['gambar']['name'];
         $ukuranfile = $_FILES['gambar']['size'];
         $error      = $_FILES['gambar']['error'];
-        $tmpname    = $_FILES['gambar']['tmpname'];
+        $tmpname    = $_FILES['gambar']['tmp_name'];
         
         if ($error === 4){
             echo "<script>
-            alert('pilih gambar terlebih dahulu');
+            alert('Pilih gambar terlebih dahulu');
             </script>";
             return false;
         }
+    
         $EkstensiGambarValid = ['jpg', 'jpeg', 'png'];
         $EkstensiGambar      = explode('.', $namafile);
-        $EkstensiGambar      = strtolower (end($EkstensiGambar));
-
-        if(in_array($EkstensiGambar, $EkstensiGambarValid)){
+        $EkstensiGambar      = strtolower(end($EkstensiGambar));
+    
+        if(!in_array($EkstensiGambar, $EkstensiGambarValid)){
             echo "<script>
-            alert('yang anda upload bukan gambar');
+            alert('Yang anda upload bukan gambar');
             </script>";
             return false;
         }
-
-        if($ukuranfile > 100000){
+    
+        if($ukuranfile > 100000000){
             echo "<script>
             alert('Gambar yang anda masukkan terlalu besar!');
             </script>";
             return false;
         }
-
-        $NamaFileBaru    = uniqid();
-        $NamaFileBaru   .= '.';
-        $NamaFileBaru   .= $EkstensiGambar;
-
+    
+        $NamaFileBaru = uniqid();
+        $NamaFileBaru .= '.';
+        $NamaFileBaru .= $EkstensiGambar;
+    
         move_uploaded_file($tmpname, 'img/' . $NamaFileBaru);
         return $NamaFileBaru;
     }
